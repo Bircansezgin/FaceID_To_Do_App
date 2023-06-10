@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22113.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UwP-pH-smm">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -88,6 +87,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="To Do " id="zSk-2D-SI9">
+                        <barButtonItem key="leftBarButtonItem" image="lock.fill" catalog="system" id="jbE-V3-7YE">
+                            <connections>
+                                <action selector="lockClick:" destination="BYZ-38-t0r" id="Cri-RF-4FH"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="awr-jC-RLE">
                             <connections>
                                 <action selector="addButtonClick:" destination="BYZ-38-t0r" id="KZp-oA-rIi"/>
@@ -122,6 +126,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="lock.fill" catalog="system" width="125" height="128"/>
         <image name="lock.icloud.fill" catalog="system" width="128" height="90"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

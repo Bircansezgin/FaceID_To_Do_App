@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  To-doApp
-//
-//  Created by Bircan Sezgin on 9.06.2023.
-//
-
 import UIKit
 import CoreData
 import LocalAuthentication
@@ -21,21 +14,19 @@ class ViewController: UIViewController {
         tableView.dataSource = self
    
         savedTexts = fetchItems()
-        tableView.reloadData()
         
         navigationItem.hidesBackButton = true
-        
     }
 
     @IBAction func addButtonClick(_ sender: Any) {
         addButton()
     }
     
-  
-
+    @IBAction func lockClick(_ sender: Any) {
+        exit(-1)
+    }
     
 }
-
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,12 +42,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-      if editingStyle == .delete {
-          deleteItem(at: indexPath)
-      }
+        if editingStyle == .delete {
+            deleteItem(at: indexPath)
+        }
     }
 }
-
 
 extension ViewController {
     func addButton() {
@@ -77,7 +67,6 @@ extension ViewController {
         
         present(alert, animated: true)
     }
-    
     
     func saveText(withText text: String) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
@@ -102,8 +91,6 @@ extension ViewController {
         }
     }
     
-    
-    // Verileri Cekmek!
     func fetchItems() -> [NSManagedObject] {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return []
@@ -114,53 +101,25 @@ extension ViewController {
         
         do {
             let results = try managedContext.fetch(fetchRequest)
-            return results
+            return results.reversed() // Verileri ters sırala
         } catch let error as NSError {
             print("Veri alınamadı: \(error), \(error.userInfo)")
             return []
         }
     }
     
-//    Verileri Silmek
-    func deleteItem(at indexPath : IndexPath){
-        if let appdelegete = UIApplication.shared.delegate as? AppDelegate{
-            let managedContext = appdelegete.persistentContainer.viewContext
+    func deleteItem(at indexPath: IndexPath) {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            let managedContext = appDelegate.persistentContainer.viewContext
             managedContext.delete(savedTexts[indexPath.row])
             savedTexts.remove(at: indexPath.row)
             
             do {
                 try managedContext.save()
                 tableView.deleteRows(at: [indexPath], with: .fade)
-            }catch let error as NSError{
+            } catch let error as NSError {
                 print("Error > \(error)")
             }
         }
     }
-    
-    
-    func faceOpen(){
-        
-        // bir objeden yetki almamiz gerek
-        let authContext = LAContext()
-        
-        var error:NSError?
-        
-        if authContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
-            authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Is it you?") { success, error in
-                // Main thread on tarafa almak
-                if success == true{
-                    DispatchQueue.main.async {
-                        
-                    }
-                }else{
-                    // Main thread on tarafa almak
-                    DispatchQueue.main.async {
-                        //self.singLabel.text = "Error"
-                    }
-                }
-            }
-        }
-    }
-    
-    
 }
