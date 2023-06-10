@@ -103,6 +103,7 @@ extension ViewController {
     }
     
     
+    // Verileri Cekmek!
     func fetchItems() -> [NSManagedObject] {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return []
@@ -120,7 +121,7 @@ extension ViewController {
         }
     }
     
-    
+//    Verileri Silmek
     func deleteItem(at indexPath : IndexPath){
         if let appdelegete = UIApplication.shared.delegate as? AppDelegate{
             let managedContext = appdelegete.persistentContainer.viewContext
